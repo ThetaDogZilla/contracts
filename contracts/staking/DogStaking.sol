@@ -76,7 +76,7 @@ contract DogStaking is IDogStaking, Ownable, ReentrancyGuard {
         require(amount>0, "Amount must be higher than 0");
         token.safeTransferFrom(msg.sender, address(this), amount); 
         totalReward += amount;
-
+        leftReward   = totalReward - totalClaimed;
     }
 
     /**
@@ -87,6 +87,8 @@ contract DogStaking is IDogStaking, Ownable, ReentrancyGuard {
         require(amount<=leftReward, "Amount must be less than leftReward");
         token.safeTransfer(msg.sender, amount); 
         totalReward -= amount;
+
+        leftReward   = totalReward - totalClaimed;
     }
 
     /**
